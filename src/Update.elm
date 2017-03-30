@@ -11,18 +11,36 @@ update msg model =
         NewArticle response ->
             ( Models.Model <| fetch response, Cmd.none )
 
+        DecreaseArticleScore articleId ->
+            let
+                article =
+                    model.article
+            in
+                ( { model | article = { article | score = article.score - 1 } }
+                , Cmd.none
+                )
+
+        IncreaseArticleScore articleId ->
+            let
+                article =
+                    model.article
+            in
+                ( { model | article = { article | score = article.score + 1 } }
+                , Cmd.none
+                )
+
 
 fetch : RemoteData.WebData Article -> Article
 fetch response =
     case response of
         RemoteData.NotAsked ->
-            Article 3 "noteaked" "noteaked" 0
+            Article 3 "noteaked" "noteaked" 0 "wait"
 
         RemoteData.Loading ->
-            Article 3 "loading" "loading" 0
+            Article 3 "loading" "loading" 0 "wait"
 
         RemoteData.Success article ->
-            Article article.articleId article.articleAuthor article.title article.score
+            Article article.articleId article.articleAuthor article.title article.score article.text
 
         RemoteData.Failure error ->
-            Article 3 (toString error) "err" 0
+            Article 3 (toString error) "err" 0 "error"

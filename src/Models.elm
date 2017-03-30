@@ -14,6 +14,7 @@ type alias Article =
     , articleAuthor : String
     , title : String
     , score : Int
+    , text : String
     }
 
 

@@ -27,3 +27,4 @@ decodeArticle =
         |> required "author" Decode.string
         |> required "title" Decode.string
         |> required "score" Decode.int
+        |> required "text" Decode.string
