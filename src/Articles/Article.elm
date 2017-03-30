@@ -33,7 +33,7 @@ article model =
                                 [ a
                                     [ class "button"
                                     , style [ ( "margin-right", "1em" ) ]
-                                    , onClick (Msgs.DecreaseArticleScore model.articleId)
+                                    , onClick (Msgs.IncreaseArticleScore model.articleId)
                                     ]
                                     [ span [ class "icon" ]
                                         [ i [ class "fa fa-plus" ] [] ]
@@ -42,7 +42,7 @@ article model =
                                 , a
                                     [ class "button"
                                     , style [ ( "margin-left", "1em" ) ]
-                                    , onClick (Msgs.IncreaseArticleScore model.articleId)
+                                    , onClick (Msgs.DecreaseArticleScore model.articleId)
                                     ]
                                     [ span [ class "icon" ]
                                         [ i [ class "fa fa-minus" ] [] ]

@@ -3,6 +3,7 @@ module Update exposing (..)
 import Models exposing (Model, Article)
 import RemoteData
 import Msgs exposing (..)
+import Commands exposing (..)
 
 
 update : Msg -> Models.Model -> ( Models.Model, Cmd Msg )
@@ -17,7 +18,7 @@ update msg model =
                     model.article
             in
                 ( { model | article = { article | score = article.score - 1 } }
-                , Cmd.none
+                , saveArticle { article | score = article.score - 1 }
                 )
 
         IncreaseArticleScore articleId ->
@@ -26,8 +27,14 @@ update msg model =
                     model.article
             in
                 ( { model | article = { article | score = article.score + 1 } }
-                , Cmd.none
+                , saveArticle { article | score = article.score + 1 }
                 )
+
+        OnArticleSave (Ok newArticle) ->
+            ( { model | article = newArticle }, Cmd.none )
+
+        OnArticleSave (Err error) ->
+            ( model, Cmd.none )
 
 
 fetch : RemoteData.WebData Article -> Article
