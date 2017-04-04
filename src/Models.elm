@@ -1,8 +1,10 @@
-module Models exposing (Model, Article, ArticleId)
+module Models exposing (..)
 
 
 type alias Model =
-    { article : Article }
+    { article : Article
+    , route : Route
+    }
 
 
 type alias User =
@@ -18,5 +20,19 @@ type alias Article =
     }
 
 
+initialModel : Article -> Route -> Model
+initialModel article route =
+    { article = article
+    , route = route
+    }
+
+
 type alias ArticleId =
     Int
+
+
+type Route
+    = ArticleRoute ArticleId
+    | SourceRoute ArticleId
+    | TransformationRoute ArticleId
+    | NotFoundRoute

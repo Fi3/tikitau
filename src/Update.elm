@@ -4,20 +4,21 @@ import Models exposing (Model, Article)
 import RemoteData
 import Msgs exposing (..)
 import Commands exposing (..)
+import Routing exposing (parseLocation)
 
 
 update : Msg -> Models.Model -> ( Models.Model, Cmd Msg )
 update msg model =
     case msg of
         NewArticle response ->
-            ( Models.Model <| fetch response, Cmd.none )
+            ( { model | article = fetch response }, Cmd.none )
 
         DecreaseArticleScore articleId ->
             let
                 article =
                     model.article
             in
-                ( { model | article = { article | score = article.score - 1 } }
+                ( model
                 , saveArticle { article | score = article.score - 1 }
                 )
 
@@ -26,7 +27,7 @@ update msg model =
                 article =
                     model.article
             in
-                ( { model | article = { article | score = article.score + 1 } }
+                ( model
                 , saveArticle { article | score = article.score + 1 }
                 )
 
@@ -35,6 +36,13 @@ update msg model =
 
         OnArticleSave (Err error) ->
             ( model, Cmd.none )
+
+        OnLocationChange location ->
+            let
+                newRoute =
+                    parseLocation location
+            in
+                ( { model | route = newRoute }, Cmd.none )
 
 
 fetch : RemoteData.WebData Article -> Article

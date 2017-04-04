@@ -3,6 +3,7 @@ module Msgs exposing (..)
 import Http exposing (..)
 import RemoteData
 import Models exposing (Model, Article, ArticleId)
+import Navigation exposing (Location)
 
 
 type Msg
@@ -10,3 +11,4 @@ type Msg
     | DecreaseArticleScore ArticleId
     | IncreaseArticleScore ArticleId
     | OnArticleSave (Result Http.Error Article)
+    | OnLocationChange Location
