@@ -36,3 +36,9 @@ type Route
     | SourceRoute ArticleId
     | TransformationRoute ArticleId
     | NotFoundRoute
+
+
+type alias PlotData =
+    { observed : List
+    , variable : List
+    }

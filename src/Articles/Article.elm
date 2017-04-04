@@ -88,9 +88,14 @@ plot : Html Msg
 plot =
     viewSeries
         [ area (List.map (\{ x, y } -> circle x y)) ]
-        [ { x = 0, y = 1 }
-        , { x = 2, y = 2 }
-        , { x = 3, y = 3 }
-        , { x = 4, y = 5 }
-        , { x = 5, y = 8 }
-        ]
+        (dataParser fakeData)
+
+
+fakeData =
+    { observed = [ 0, 2, 3, 4, 5 ]
+    , variable = [ 1, 2, 3, 5, 8 ]
+    }
+
+
+dataParser data =
+    List.map2 (\x y -> { x = x, y = y }) data.observed data.variable
