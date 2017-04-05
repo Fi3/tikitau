@@ -4,6 +4,7 @@ module Models exposing (..)
 type alias Model =
     { article : Article
     , route : Route
+    , sources : Sources
     }
 
 
@@ -24,6 +25,7 @@ initialModel : Article -> Route -> Model
 initialModel article route =
     { article = article
     , route = route
+    , sources = []
     }
 
 
@@ -39,6 +41,10 @@ type Route
 
 
 type alias PlotData =
-    { observed : List
-    , variable : List
+    { observed : List Int
+    , variable : List Int
     }
+
+
+type alias Sources =
+    List PlotData

@@ -3,13 +3,13 @@ module Articles.Article exposing (article)
 import Html exposing (Html, beginnerProgram, div, text, h2, a, nav, i, span)
 import Html.Events exposing (onClick)
 import Html.Attributes exposing (class, style)
-import Models exposing (Article)
+import Models exposing (Article, Sources, PlotData)
 import Msgs exposing (Msg)
 import Plot exposing (..)
 
 
-article : Article -> Html Msg
-article model =
+article : Article -> Sources -> Html Msg
+article model sources =
     div [ class "section" ]
         [ div [ class "cloumns is-mobile" ]
             [ div [ class "column is-8 is-offset-2" ]
@@ -69,7 +69,7 @@ article model =
                             [ class "column"
                             , style [ ( "margin-top", "3em" ) ]
                             ]
-                            [ plot ]
+                            [ plot <| List.head sources ]
                         ]
                     , div [ class "cloumns is-mobile" ]
                         [ div
@@ -84,11 +84,11 @@ article model =
         ]
 
 
-plot : Html Msg
-plot =
+plot : Maybe PlotData -> Html Msg
+plot plotData =
     viewSeries
         [ area (List.map (\{ x, y } -> circle x y)) ]
-        (dataParser fakeData)
+        (dataParser plotData)
 
 
 fakeData =
@@ -97,5 +97,16 @@ fakeData =
     }
 
 
+dataParser : Maybe PlotData -> List { x : Float, y : Float }
 dataParser data =
-    List.map2 (\x y -> { x = x, y = y }) data.observed data.variable
+    case data of
+        Nothing ->
+            [ { x = 1.0, y = 1.0 }
+            , { x = 2.0, y = 2.0 }
+            , { x = 3.0, y = 4.0 }
+            , { x = 4.0, y = 5.0 }
+            , { x = 5.0, y = 6.0 }
+            ]
+
+        Just data ->
+            List.map2 (\x y -> { x = toFloat x, y = toFloat y }) data.observed data.variable

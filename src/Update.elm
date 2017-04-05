@@ -1,6 +1,6 @@
 module Update exposing (..)
 
-import Models exposing (Model, Article)
+import Models exposing (Model, Article, Sources, PlotData)
 import RemoteData
 import Msgs exposing (..)
 import Commands exposing (..)
@@ -11,7 +11,10 @@ update : Msg -> Models.Model -> ( Models.Model, Cmd Msg )
 update msg model =
     case msg of
         NewArticle response ->
-            ( { model | article = fetch response }, Cmd.none )
+            ( { model | article = retriveArticle response }, fetchSources 1 )
+
+        NewSource response ->
+            ( { model | sources = retriveSource response }, Cmd.none )
 
         DecreaseArticleScore articleId ->
             let
@@ -45,8 +48,8 @@ update msg model =
                 ( { model | route = newRoute }, Cmd.none )
 
 
-fetch : RemoteData.WebData Article -> Article
-fetch response =
+retriveArticle : RemoteData.WebData Article -> Article
+retriveArticle response =
     case response of
         RemoteData.NotAsked ->
             Article 3 "noteaked" "noteaked" 0 "wait"
@@ -59,3 +62,19 @@ fetch response =
 
         RemoteData.Failure error ->
             Article 3 (toString error) "err" 0 "error"
+
+
+retriveSource : RemoteData.WebData PlotData -> Sources
+retriveSource response =
+    case response of
+        RemoteData.NotAsked ->
+            []
+
+        RemoteData.Loading ->
+            []
+
+        RemoteData.Success source ->
+            [ source ]
+
+        RemoteData.Failure error ->
+            []

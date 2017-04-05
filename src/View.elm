@@ -11,7 +11,7 @@ view : Model -> Html Msg
 view model =
     case model.route of
         ArticleRoute articleId ->
-            article model.article
+            article model.article model.sources
 
         SourceRoute articleId ->
             source model

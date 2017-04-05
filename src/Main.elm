@@ -48,3 +48,21 @@ init location =
 subscriptions : Model -> Sub Msg
 subscriptions model =
     Sub.none
+
+
+
+--type alias Data =
+--    { articleId : List Int
+--    , caniMaili : List Int
+--    }
+--
+--
+--jj =
+--    "{id:[1,2,3]}"
+--
+--
+--decodeData : Decode.Decoder Data
+--decodeData =
+--    decode Data
+--        |> required "id" (Decode.list Decode.int)
+--        |> required "cm" (Decode.list Decode.int)
